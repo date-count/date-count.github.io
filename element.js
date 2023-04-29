@@ -12,7 +12,7 @@ customElements.define("date-count", class extends HTMLElement {
     // ********************************************************************
     connectedCallback() {
         // naming all my variables VAR, they are slightly faster and minify well because CSS has a "var" keyword too
-        var count = "years,days,hours,minutes,seconds".split(",");
+        var count = "year,day,hour,minute,second".split(",");
 
         // --------------------------------------------------------------------
         // set countlabels any of ["years", "days", "hours", "minutes", "seconds"]
@@ -127,34 +127,37 @@ customElements.define("date-count", class extends HTMLElement {
         count = setInterval(() => {
             // ---------------------------------------------------------------- 
             var start = new Date();
-            //var future = new Date(this.getAttribute("date") || "2038-01-19 03:14:07");
-            var future = new Date(this.getAttribute("date") || "2038-01-19");
+            var future = new Date(this.getAttribute("date") || "2038-1-19 3:14:7");
             var since = future < start && ([start, future] = [future, start]);
             var diff = future - start;
+            //console.log(future,diff);
+            //this.setAttribute("date", future - diff);
             // var day = 86400000;
             // 86400000 * 365 = 31536000000
-            var timediff = { years: ~~(diff / 31536000000) };
+            var timediff = { year: ~~(diff / 31536000000) };
             var leapYears = 0;
-            var i;
-            for (i = start.getFullYear(); i < future.getFullYear(); i++)
-                ((i % 4 == 0 && i % 100 != 0) || i % 400 == 0) && (since ? leapYears-- : leapYears++);
+            var year;
+            for (year = start.getFullYear(); year < future.getFullYear(); year++)
+                ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && (since ? leapYears-- : leapYears++);
             //timediff.weeks = ~~((diff -= timediff.years * day * 7)/day);
-            timediff.days = ~~((diff -= timediff.years * 31536000000) / 86400000) + leapYears;
-            timediff.hours = ~~((diff -= (timediff.days - leapYears) * 86400000) / 3600000);
-            timediff.minutes = ~~((diff -= timediff.hours * 3600000) / (60000));
-            timediff.seconds = ~~((diff -= timediff.minutes * 60000) / 1000);
+            timediff.day = ~~((diff -= timediff.year * 31536000000) / 86400000) + leapYears;
+            timediff.hour = ~~((diff -= (timediff.day - leapYears) * 86400000) / 3600000);
+            timediff.minute = ~~((diff -= timediff.hour * 3600000) / (60000));
+            timediff.second = ~~((diff -= timediff.minute * 60000) / 1000);
             // ---------------------------------------------------------------- 
             if (countlabels.map(label =>
             (
                 this.setAttribute(label, timediff[label]),
                 // update every counter in the DOM element this[label]
                 /*.map RETURN value: */ this[label].innerHTML = timediff[label]
+
                 // OR minimal DOM updates; update only counters that are not 0 OR the same value as before
                 //(this["_" + label] == datedifference[label]) && (this[label].innerHTML = (this["_" + label] = datedifference[label]))
+
             )).every(value => !value)) {
                 // counter is down to 0, stop interval timer
                 clearInterval(count);
-                this.dispatchEvent(new Event("date-count")); // dispatch event
+                this.dispatchEvent(new Event(this.id)); // dispatch event
                 //this.dispatchEvent(new CustomEvent("date-count", { bubbles: 1, composed: 1 })); // dispatch event
             }
         }, 1000);// ping every second

@@ -127,6 +127,7 @@
     </header>
     <main>
         <h1>Use the Web Component in HTML code:</h1>
+        <section id="countdown"><script>document.write(`<date-count format="nl" date="${new Date(Date()-20)}">10 seconds</date-count>`)</script></section>
         <section id="default">
             <h2>Count down to the default future date</h2>
             <html-code>&lt;date-count>&lt;/date-count></html-code>
@@ -134,33 +135,33 @@
         </section>
         <section id="newyear">
             <h2>set custom date and hide years counter</h2>
-            <html-code>&lt;date-count date="2024-1-1" noyears>🎆 New Year! 🍾&lt;/date-count></html-code>
-            <date-count noyears date="2024-1-1">🎆 New Year! 🍾</date-count>
+            <html-code>&lt;date-count date="2024-1-1" noyear>🎆 New Year! 🍾&lt;/date-count></html-code>
+            <date-count noyear date="2024-1-1">🎆 New Year! 🍾</date-count>
         </section>
         <section id="newyeardays">
             <h2>set custom date, only display days counter and format font-size</h2>
             <html-code>&lt;date-count date="2024-1-1"<br>
-                <spa-ces>14</spa-ces>count="days"<br>
+                <spa-ces>14</spa-ces>count="day"<br>
                 <spa-ces>14</spa-ces>counts-font-size="6rem">🎆
                 New Year! 🍾<br>&lt;/date-count></html-code>
-            <date-count noyears nohours nominutes noseconds date="2024-1-1" counts-font-size="6rem">🎆 New Year!
+            <date-count noyear nohour nominute nosecond date="2024-1-1" counts-font-size="6rem">🎆 New Year!
                 🍾</date-count>
         </section>
         <section id="since">
             <h2>Count <b>up</b> from a past date</h2>
             <html-code>&lt;date-count date="1969-1-21"<br>
                 <spa-ces>14</spa-ces>event="my age"<br>
-                <spa-ces>14</spa-ces>count="years,days,hours"><br>&lt;/date-count></html-code>
-            <date-count date="1969-1-21" event="my age" count="years,days,hours"></date-count>
+                <spa-ces>14</spa-ces>count="year,day,hour"><br>&lt;/date-count></html-code>
+            <date-count date="1969-1-21" event="my age" count="year,day,hour"></date-count>
         </section>
         <section id="language">
             <h2>Set the labels to any language</h2>
             <html-code>&lt;date-count format="es"><br>&nbsp;Y2K38 in Spanish<br>&lt;/date-count></html-code>
             <date-count format="es">Y2K38 in Spanish</date-count>
             <html-code>&lt;date-count format="nl"<br>
-                <spa-ces>14</spa-ces>count="years,days"><br>&nbsp;Y2K38
+                <spa-ces>14</spa-ces>count="year,day"><br>&nbsp;Y2K38
                 in Dutch<br>&lt;/date-count></html-code>
-            <date-count count="years,days" format="nl">Y2K38 in Dutch</date-count>
+            <date-count count="year,day" format="nl">Y2K38 in Dutch</date-count>
         </section>
         <section id="CSS">
             <h2>Set styles with CSS properties</h2>
