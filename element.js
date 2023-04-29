@@ -70,14 +70,13 @@ customElements.define("date-count", class extends HTMLElement {
                 create: "style",
                 //id: "style", // prevent from setting default "undefined" string value
                 innerHTML: ":host{display:inline-block;" +
-                    attr_CSSprop("", "font", "arial") +
-                    //attr_CSSprop("", "width", "", countlabels.length * 5 + "rem") +
+                    attr_CSSprop("style", "font", "arial") +
                     "}" +
                     // eventname
                     "#event{" +
                     attr_CSSprop("event", "color", "#000") + // black
-                    attr_CSSprop("event", "padding", "0 1rem") +
-                    attr_CSSprop("event", "font-size", "2.5rem") +
+                    attr_CSSprop("event", "padding", "0 2rem") +
+                    attr_CSSprop("event", "font-size", "2.4rem") +
                     attr_CSSprop("event", "text-align", "center") +
                     attr_CSSprop("event", "background", "#fc0") + // gold
                     "}" +
@@ -85,14 +84,14 @@ customElements.define("date-count", class extends HTMLElement {
                     "#counts{display:grid;grid:1fr/repeat(" + countlabels.length + ",1fr);" +
                     //"grid-auto-flow:row;" +
                     attr_CSSprop("counts", "color", "#fff") + // white
-                    attr_CSSprop("counts", "font-size", "2.5rem") +
+                    attr_CSSprop("counts", "font-size", "2.4rem") +
                     attr_CSSprop("counts", "text-align", "center") +
                     attr_CSSprop("counts", "background", "#080") + // green
                     "}" +
                     // countdown labels
                     "[part$='label']{" +
                     attr_CSSprop("label", "padding", "0 1rem") +
-                    attr_CSSprop("label", "font-size", "1.5rem") +
+                    attr_CSSprop("label", "font-size", "1.4rem") +
                     attr_CSSprop("label", "text-transform", "uppercase") +
                     "}"
             }),
