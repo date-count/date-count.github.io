@@ -154,7 +154,8 @@ customElements.define("date-count", class extends HTMLElement {
             )).every(value => !value)) {
                 // counter is down to 0, stop interval timer
                 clearInterval(count);
-                this.dispatchEvent(new CustomEvent("date-count", { bubbles: 1, composed: 1 })); // dispatch event
+                this.dispatchEvent(new Event("date-count")); // dispatch event
+                //this.dispatchEvent(new CustomEvent("date-count", { bubbles: 1, composed: 1 })); // dispatch event
             }
         }, 1000);// ping every second
 
