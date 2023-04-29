@@ -141,9 +141,9 @@
             <h2>set custom date, only display days counter and format font-size</h2>
             <html-code>&lt;date-count date="2024-1-1"<br>
                 <spa-ces>14</spa-ces>count="days"<br>
-                <spa-ces>14</spa-ces>counters-font-size="6rem">🎆
+                <spa-ces>14</spa-ces>counts-font-size="6rem">🎆
                 New Year! 🍾<br>&lt;/date-count></html-code>
-            <date-count noyears nohours nominutes noseconds date="2024-1-1" counters-font-size="6rem">🎆 New Year!
+            <date-count noyears nohours nominutes noseconds date="2024-1-1" counts-font-size="6rem">🎆 New Year!
                 🍾</date-count>
         </section>
         <section id="since">
@@ -195,10 +195,10 @@
 
         <section id="attributes">
             <h2>Set styles with attributes (overrule global CSS properties)</h2>
-            <html-code>&lt;date-count counters-background="blue"<br>
-                <spa-ces>14</spa-ces>counters-color="gold"><br>
+            <html-code>&lt;date-count counts-background="blue"<br>
+                <spa-ces>14</spa-ces>counts-color="gold"><br>
                 &lt;/date-count></html-code>
-            <date-count counters-background="blue" counters-color="gold"></date-count>
+            <date-count counts-background="blue" counts-color="gold"></date-count>
         </section>
 
         <section id="parts">
@@ -211,7 +211,7 @@
                     color: gold;
                 }
 
-                #parts date-count::part(counters) {
+                #parts date-count::part(counts) {
                     text-shadow: 2px 2px 2px black;
                 }
 
@@ -225,7 +225,7 @@
         background: green;
         color: gold;
     }
-    date-count::part(counters) {
+    date-count::part(counts) {
         text-shadow:  2px 2px 2px black;
     }
     date-count::part(years) {

@@ -71,7 +71,7 @@ customElements.define("date-count", class extends HTMLElement {
                 //id: "style", // prevent from setting default "undefined" string value
                 innerHTML: ":host{display:inline-block;" +
                     attr_CSSprop("", "font", "arial") +
-                    attr_CSSprop("", "width", "", countlabels.length * 5 + "rem") +
+                    //attr_CSSprop("", "width", "", countlabels.length * 5 + "rem") +
                     "}" +
                     // eventname
                     "#event{" +
@@ -90,9 +90,9 @@ customElements.define("date-count", class extends HTMLElement {
                     attr_CSSprop("counts", "background", "#080") + // green
                     "}" +
                     // countdown labels
-                    "[part*='label']{" +
+                    "[part$='label']{" +
                     attr_CSSprop("label", "padding", "0 1rem") +
-                    attr_CSSprop("label", "font-size", "50%") +
+                    attr_CSSprop("label", "font-size", "1.5rem") +
                     attr_CSSprop("label", "text-transform", "uppercase") +
                     "}"
             }),
@@ -132,15 +132,16 @@ customElements.define("date-count", class extends HTMLElement {
             var future = new Date(this.getAttribute("date") || "2038-01-19");
             var since = future < start && ([start, future] = [future, start]);
             var diff = future - start;
-            var day = 86400000;
-            var timediff = { years: ~~(diff / (day * 365)) };
+            // var day = 86400000;
+            // 86400000 * 365 = 31536000000
+            var timediff = { years: ~~(diff / 31536000000) };
             var leapYears = 0;
             var i;
             for (i = start.getFullYear(); i < future.getFullYear(); i++)
                 ((i % 4 == 0 && i % 100 != 0) || i % 400 == 0) && (since ? leapYears-- : leapYears++);
             //timediff.weeks = ~~((diff -= timediff.years * day * 7)/day);
-            timediff.days = ~~((diff -= timediff.years * day * 365) / day) + leapYears;
-            timediff.hours = ~~((diff -= (timediff.days - leapYears) * day) / 3600000);
+            timediff.days = ~~((diff -= timediff.years * 31536000000) / 86400000) + leapYears;
+            timediff.hours = ~~((diff -= (timediff.days - leapYears) * 86400000) / 3600000);
             timediff.minutes = ~~((diff -= timediff.hours * 3600000) / (60000));
             timediff.seconds = ~~((diff -= timediff.minutes * 60000) / 1000);
             // ---------------------------------------------------------------- 
