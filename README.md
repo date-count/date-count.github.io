@@ -1,2 +1,4 @@
 # date-count.github.io
-&lt;date-count> Web Component to future dates, from past dates
+&lt;date-count> Web Component
+
+## See: [](https://date-count.github.io/)
