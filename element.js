@@ -126,12 +126,28 @@ customElements.define("date-count", class extends HTMLElement {
         // main interval timer
         // Hey! Its JavaScript! Reusing count variable, so we don't have to declare a new one! Now for a timer function
         count = setInterval(() => {
-            var datedifference = this.counts(new Date(this.getAttribute("date") || "2038-01-19 03:14:07"));
+            // ---------------------------------------------------------------- 
+            var start = new Date();
+            var future = new Date(this.getAttribute("date") || "2038-01-19 03:14:07");
+            var since = future < start && ([start, future] = [future, start]);
+            var diff = future - start;
+            var day = 86400000;
+            var timediff = { years: ~~(diff / (day * 365)) };
+            var leapYears = 0;
+            var i;
+            for (i = start.getFullYear(); i < future.getFullYear(); i++)
+                ((i % 4 == 0 && i % 100 != 0) || i % 400 == 0) && (since ? leapYears-- : leapYears++);
+            //timediff.weeks = ~~((diff -= timediff.years * day * 7)/day);
+            timediff.days = ~~((diff -= timediff.years * day * 365) / day) + leapYears;
+            timediff.hours = ~~((diff -= (timediff.days - leapYears) * day) / 3600000);
+            timediff.minutes = ~~((diff -= timediff.hours * 3600000) / (60000));
+            timediff.seconds = ~~((diff -= timediff.minutes * 60000) / 1000);
+            // ---------------------------------------------------------------- 
             if (countlabels.map(label =>
             (
-                this.setAttribute(label, datedifference[label]),
+                this.setAttribute(label, timediff[label]),
                 // update every counter in the DOM element this[label]
-                /*.map RETURN value: */ this[label].innerHTML = datedifference[label]
+                /*.map RETURN value: */ this[label].innerHTML = timediff[label]
                 // OR minimal DOM updates; update only counters that are not 0 OR the same value as before
                 //(this["_" + label] == datedifference[label]) && (this[label].innerHTML = (this["_" + label] = datedifference[label]))
             )).every(value => !value)) {
@@ -139,27 +155,8 @@ customElements.define("date-count", class extends HTMLElement {
                 clearInterval(count);
                 this.dispatchEvent(new CustomEvent("date-count", { bubbles: 1, composed: 1 })); // dispatch event
             }
-        }, 1e3);// ping every second
+        }, 1000);// ping every second
 
     } // connectedCallback
 
-    // ********************************************************************
-    // keeping as separate methode for easy reuse in other projects
-    // could be included in this connectedCallback setInterval for a smaller file
-    counts(date, start = new Date(), future = new Date(date)) {
-        var since = future < start && ([start, future] = [future, start]);
-        var diff = future - start;
-        var day = 864e5;
-        var timediff = { years: ~~(diff / (day * 365)) };
-        var leapYears = 0;
-        var i;
-        for (i = start.getFullYear(); i < future.getFullYear(); i++)
-            ((i % 4 == 0 && i % 100 != 0) || i % 400 == 0) && (since ? leapYears-- : leapYears++);
-        //timediff.weeks = ~~((diff -= timediff.years * day * 7)/day);
-        timediff.days = ~~((diff -= timediff.years * day * 365) / day) + leapYears;
-        timediff.hours = ~~((diff -= (timediff.days - leapYears) * day) / 36e5);
-        timediff.minutes = ~~((diff -= timediff.hours * 36e5) / (6e4));
-        timediff.seconds = ~~((diff -= timediff.minutes * 6e4) / 1e3);
-        return timediff;
-    }
 })
