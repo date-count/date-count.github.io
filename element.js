@@ -62,12 +62,12 @@ customElements.define("date-count", class extends HTMLElement {
                     attr_CSSprop("event", "background", "#fc0") + // gold
                     "}" +
                     // countdown counters
-                    "#counts{display:grid;grid:1fr/repeat(" + countlabels.length + ",1fr);" +
+                    "#count{display:grid;grid:1fr/repeat(" + countlabels.length + ",1fr);" +
                     //"grid-auto-flow:row;" +
-                    attr_CSSprop("counts", "color", "#fff") + // white
-                    attr_CSSprop("counts", "font-size", "2.4rem") +
-                    attr_CSSprop("counts", "text-align", "center") +
-                    attr_CSSprop("counts", "background", "#080") + // green
+                    attr_CSSprop("count", "color", "#fff") + // white
+                    attr_CSSprop("count", "font-size", "2.4rem") +
+                    attr_CSSprop("count", "text-align", "center") +
+                    attr_CSSprop("count", "background", "#080") + // green
                     "}" +
                     // countdown labels
                     "[part$='label']{" +
@@ -87,9 +87,9 @@ customElements.define("date-count", class extends HTMLElement {
             }),
             // --------------------------------------------------------------------
             element({
-                id: "counts",
+                id: "count",
                 append: countlabels.map(label => element({ // = "years", "days", "hours", "minutes", "seconds"
-                    id: label + "part",
+                    id: label + "count",
                     append: [
                         element({
                             id: label
