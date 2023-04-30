@@ -118,7 +118,7 @@ customElements.define("date-count", class extends HTMLElement {
         var count = setInterval(() => {
             // ---------------------------------------------------------------- 
             var start = new Date();
-            var future = new Date(this.getAttribute("date") || "2038-1-19 3:14:7");
+            var future = new Date(this.getAttribute("date") || 2147483647e3);// "2038-1-19 3:14:7");
             var since = future < start && ([start, future] = [future, start]);
             var diff = future - start;
             // var day = 864e5; // 864e5 * 365 = 31536e6
