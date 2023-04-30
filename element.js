@@ -58,23 +58,22 @@ customElements.define("date-count", class extends HTMLElement {
                     // eventname
                     "#event{" +
                     attr_CSSprop("event", "color", "#0") + // black
-                    attr_CSSprop("event", "padding", "0 2rem") +
-                    attr_CSSprop("event", "font-size", "2.4rem") +
+                    attr_CSSprop("event", "padding", "0 1rem") +
+                    attr_CSSprop("event", "font-size", "2rem") +
                     attr_CSSprop("event", "text-align", "center") +
                     attr_CSSprop("event", "background", "#fc0") + // gold
                     "}" +
                     // countdown counters
                     "#count{display:grid;grid:1fr/repeat(" + countlabels.length + ",1fr);" +
-                    //"grid-auto-flow:row;" +
-                    attr_CSSprop("count", "color", "#fff") + // white
-                    attr_CSSprop("count", "font-size", "2.4rem") +
+                    attr_CSSprop("count", "color", "#fc0") + // white
+                    attr_CSSprop("count", "font-size", "2rem") +
                     attr_CSSprop("count", "text-align", "center") +
                     attr_CSSprop("count", "background", "#080") + // green
                     "}" +
                     // countdown labels
                     "[part*='label']{" +
                     attr_CSSprop("label", "padding", "0 1rem") +
-                    attr_CSSprop("label", "font-size", "1.4rem") +
+                    attr_CSSprop("label", "font-size", "1rem") +
                     attr_CSSprop("label", "text-transform", "uppercase") +
                     "}"
             }),

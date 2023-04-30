@@ -21,7 +21,7 @@
         body {
             font: 16px arial;
             --date-count-font: verdana;
-            --date-count-font-size: 2.5rem;
+            --date-count-font-size: 2.4rem;
             background: beige;
             max-width: 1200px;
             margin: 0 auto;
@@ -156,13 +156,13 @@
         <section id="newyeardaysNO">
             <h2>set custom date, only display days counter and format font-size</h2>
             <date-count-display></date-count-display>
-            <date-count noyear nohour nominute nosecond date="2024-1-1" counts-font-size="5rem">🎆 New Year!
+            <date-count noyear nohour nominute nosecond date="2024-1-1" count-font-size="4rem">🎆 New Year!
                 🍾</date-count>
         </section>
         <section id="newyeardays">
             <h2>set custom date, only display days counter and format font-size</h2>
             <date-count-display></date-count-display>
-            <date-count date="2024-1-1" count="day" counts-font-size="5rem">🎆 New Year! 🍾</date-count>
+            <date-count date="2024-1-1" count="day" count-font-size="4rem">🎆 New Year! 🍾</date-count>
         </section>
         <section id="since">
             <h2>Count <b>up</b> from a past date</h2>
@@ -187,8 +187,8 @@
                     --date-count-font-size: 2rem;
                     --date-count-event-background: red;
                     --date-count-event-color: white;
-                    --date-count-counts-background: teal;
-                    --date-count-counts-color: gold;
+                    --date-count-count-background: teal;
+                    --date-count-count-color: gold;
                     --date-count-font-size: 3rem;
                     --date-count-label-font-size: 1rem;
                 }
@@ -200,8 +200,8 @@
     --date-count-font-size: 2rem;
     --date-count-event-background: red;
     --date-count-event-color: white;
-    --date-count-counts-background: teal;
-    --date-count-counts-color: gold;
+    --date-count-count-background: teal;
+    --date-count-count-color: gold;
     --date-count-font-size: 3rem;
     --date-count-label-font-size: 1rem;
 &lt;/style>
@@ -212,7 +212,7 @@
         <section id="attributes">
             <h2>Set styles with attributes (overrule global CSS properties)</h2>
             <date-count-display></date-count-display>
-            <date-count counts-background="blue" counts-color="gold"></date-count>
+            <date-count count-background="blue" count-color="gold"></date-count>
         </section>
 
         <section id="parts">
