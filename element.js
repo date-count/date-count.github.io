@@ -39,9 +39,11 @@ customElements.define("date-count", class extends HTMLElement {
         );
         // ********************************************************************
         // generic function setting CSS selector
-        // to read value from attribues OR CSS property OR default value
         var attr_CSSprop = (prefix, name, value) =>
-            name + `:${this.getAttribute(prefix + "-" + name) || "var(--date-count-" + prefix + "-" + name + `,${value})`};`;
+            // to read value from attribues 
+            name + ":" + (this.getAttribute(prefix + "-" + name)
+                || // OR CSS property OR default value
+                "var(--date-count-" + prefix + "-" + name + "," + value + ")") + ";";
 
         // ********************************************************************
         // create full shadowDOM
