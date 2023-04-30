@@ -72,7 +72,7 @@ customElements.define("date-count", class extends HTMLElement {
                     attr_CSSprop("count", "background", "#080") + // green
                     "}" +
                     // countdown labels
-                    '[part*="label"]{' +
+                    "[part*='label']{" +
                     attr_CSSprop("label", "padding", "0 1rem") +
                     attr_CSSprop("label", "font-size", "1.4rem") +
                     attr_CSSprop("label", "text-transform", "uppercase") +
