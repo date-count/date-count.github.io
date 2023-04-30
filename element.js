@@ -12,20 +12,15 @@ customElements.define("date-count", class extends HTMLElement {
     // ********************************************************************
     connectedCallback() {
         // naming all my variables VAR, they are slightly faster and minify well because CSS has a "var" keyword too
-        var count = "year,day,hour,minute,second".split(",");
-
-        // --------------------------------------------------------------------
-        // set countlabels any of ["years", "days", "hours", "minutes", "seconds"]
-        var countlabels =
-            // user defined "years,days"string from attribute "count" 
-            this.getAttribute("count")?.split(",")
-            // if no "count" attribute specified, use all labels "years,days,hours,minutes,seconds"
-            // and filter away user defined "noyears" ... "noseconds" attributes
-            || count.filter(label => !this.hasAttribute("no" + label));
+        // set count labels any of ["years", "days", "hours", "minutes", "seconds"]
+        // and filter away user defined "noyears" ... "noseconds" attributes
+        var countlabels = (this.getAttribute("count") || "year,day,hour,minute,second")
+            .split(",")
+            .filter(label => !this.hasAttribute("no" + label));
 
         // ********************************************************************
-        // generic function to create a HTML element with all content and properties
-        // this[id] optimized for use in this Custom Element
+        // generic create DOM element with all content and properties
+        // this[id] notation optimized for use in this Custom Element
         var element = ({
             create = "div", // default element is a <div>
             id,// 
@@ -34,7 +29,7 @@ customElements.define("date-count", class extends HTMLElement {
         }) => (
             // I hate "return" statements they only take up bytes (x,y,z,return value) does the job
 
-            // every id must be unique! and becomes a this. reference
+            // every id must be unique! and becomes a this.id reference
             this[id] = Object.assign( // Object.assign is my favorite JS function
                 document.createElement(create), // create a DOM element
                 { id, part: id, ...p } // set ALL properties, eventhandlers etc.
@@ -46,8 +41,7 @@ customElements.define("date-count", class extends HTMLElement {
         // generic function setting CSS selector
         // to read value from attribues OR CSS property OR default value
         var attr_CSSprop = (prefix, name, value) =>
-            `${name}:${this.getAttribute(prefix + `-` + name) ||
-            `var(--date-count-${prefix}-${name},${value})`};`;
+            `${name}:${this.getAttribute(prefix + `-` + name) || `var(--date-count-${prefix}-${name},${value})`};`;
 
         // ********************************************************************
         // create full shadowDOM
@@ -61,7 +55,7 @@ customElements.define("date-count", class extends HTMLElement {
                     "}" +
                     // eventname
                     "#event{" +
-                    attr_CSSprop("event", "color", "#000") + // black
+                    attr_CSSprop("event", "color", "#e3") + // black
                     attr_CSSprop("event", "padding", "0 2rem") +
                     attr_CSSprop("event", "font-size", "2.4rem") +
                     attr_CSSprop("event", "text-align", "center") +
@@ -103,9 +97,9 @@ customElements.define("date-count", class extends HTMLElement {
                         }),
                         element({
                             id: label + "label",
-                            innerHTML:         
+                            innerHTML:
                                 // --------------------------------------------------------------------
-                                // get proper locale_labels for all countlabels
+                                // get proper locale_labels for all count labels
                                 new Intl.RelativeTimeFormat(
                                     this.getAttribute("format") || "en", // todo: query this default from CSS property?
                                     //{ numeric: "auto" }
@@ -127,17 +121,17 @@ customElements.define("date-count", class extends HTMLElement {
             var future = new Date(this.getAttribute("date") || "2038-1-19 3:14:7");
             var since = future < start && ([start, future] = [future, start]);
             var diff = future - start;
-            // var day = 86400000; // 86400000 * 365 = 31536000000
-            var timediff = { year: ~~(diff / 31536000000) };
+            // var day = 864e5; // 864e5 * 365 = 31536e6
+            var timediff = { year: ~~(diff / 31536e6) };
             var leapYears = 0;
             var year;
             for (year = start.getFullYear(); year < future.getFullYear(); year++)
                 ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && (since ? leapYears-- : leapYears++);
             //timediff.weeks = ~~((diff -= timediff.years * day * 7)/day);
-            timediff.day = ~~((diff -= timediff.year * 31536000000) / 86400000) + leapYears;
-            timediff.hour = ~~((diff -= (timediff.day - leapYears) * 86400000) / 3600000);
-            timediff.minute = ~~((diff -= timediff.hour * 3600000) / (60000));
-            timediff.second = ~~((diff -= timediff.minute * 60000) / 1000);
+            timediff.day = ~~((diff -= timediff.year * 31536e6) / 864e5) + leapYears;
+            timediff.hour = ~~((diff -= (timediff.day - leapYears) * 864e5) / 36e5);
+            timediff.minute = ~~((diff -= timediff.hour * 36e5) / (6e4));
+            timediff.second = ~~((diff -= timediff.minute * 6e4) / 1e3);
             // ---------------------------------------------------------------- 
             if (countlabels.map(label =>
             (
@@ -154,7 +148,7 @@ customElements.define("date-count", class extends HTMLElement {
                 this.dispatchEvent(new Event(this.id)); // dispatch event
                 //this.dispatchEvent(new CustomEvent("date-count", { bubbles: 1, composed: 1 })); // dispatch event
             }
-        }, 1000);// ping every second
+        }, 1e3);// ping every second
 
     } // connectedCallback
 
