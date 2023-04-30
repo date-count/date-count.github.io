@@ -115,7 +115,7 @@ customElements.define("date-count", class extends HTMLElement {
         // ----------------------------------------------------------------
         // main interval timer
         // Hey! Its JavaScript! Reusing count variable, so we don't have to declare a new one! Now for a timer function
-        count = setInterval(() => {
+        var count = setInterval(() => {
             // ---------------------------------------------------------------- 
             var start = new Date();
             var future = new Date(this.getAttribute("date") || "2038-1-19 3:14:7");
