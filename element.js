@@ -29,13 +29,13 @@ customElements.define("date-count", class extends HTMLElement {
         }) => (
             // I hate "return" statements they only take up bytes (x,y,z,return value) does the job
 
-            // every id must be unique! and becomes a this.id reference
-            this[id] = Object.assign( // Object.assign is my favorite JS function
-                document.createElement(create), // create a DOM element
+            Object.assign( // Object.assign is my favorite JS function
+                create = document.createElement(create), // create a DOM element
                 { id, part: id, ...p } // set ALL properties, eventhandlers etc.
-            ),
-            this[id].append(...append), // append all child elements
-            /* Return value: */ this[id]
+            ).append(...append), // append all child elements
+
+            // every id must be unique! and becomes a this.id reference
+            /* Return value: */ this[id] = create
         );
         // ********************************************************************
         // generic function setting CSS selector
