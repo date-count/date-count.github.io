@@ -1,4 +1,4 @@
-// <date-count> custom element, displaying [years] [days] [hours] [minutes] [seconds] countdown to a date
+// <event-count> custom element, displaying [years] [days] [hours] [minutes] [seconds] countdown to a date
 // counts UP for past dates
 // attributes: date, event, count, noyears, nodays, nohours, nominutes, noseconds, locale
 // date:    date to count down to, default Y2K38 Epochalypse date Counts UP for past dates
@@ -7,7 +7,7 @@
 // noyears, nodays, nohours, nominutes, noseconds: hide labels, default show all labels
 // locale:  language to use for labels, default "en" (English)
 
-customElements.define("date-count", class extends HTMLElement {
+customElements.define("event-count", class extends HTMLElement {
 
     // ********************************************************************
     connectedCallback() {
@@ -43,7 +43,7 @@ customElements.define("date-count", class extends HTMLElement {
             // to read value from attribues 
             name + ":" + (this.getAttribute(prefix + "-" + name)
                 || // OR CSS property OR default value
-                "var(--date-count-" + prefix + "-" + name + "," + value + ")") + ";";
+                "var(--event-count-" + prefix + "-" + name + "," + value + ")") + ";";
 
         // ********************************************************************
         // create full shadowDOM
@@ -52,9 +52,7 @@ customElements.define("date-count", class extends HTMLElement {
             element({
                 create: "style",
                 //id: "style", // prevent from setting default "undefined" string value
-                innerHTML: ":host{display:inline-block;" +
-                    //attr_CSSprop("style", "font", "arial") +
-                    "}" +
+                innerHTML: ":host{display:inline-block}" +
                     // eventname
                     "#event{" +
                     attr_CSSprop("event", "color", "#0") + // black
@@ -149,7 +147,7 @@ customElements.define("date-count", class extends HTMLElement {
                 // counter is down to 0, stop interval timer
                 clearInterval(intervalCounter);
                 this.dispatchEvent(new Event(this.id)); // dispatch event
-                //this.dispatchEvent(new CustomEvent("date-count", { bubbles: 1, composed: 1 })); // dispatch event
+                //this.dispatchEvent(new CustomEvent("event-count", { bubbles: 1, composed: 1 })); // dispatch event
             }
         }, 1e3);// ping every second
 
