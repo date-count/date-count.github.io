@@ -117,18 +117,20 @@ customElements.define("date-count", class extends HTMLElement {
         // ----------------------------------------------------------------
         // main interval timer
         // Hey! Its JavaScript! Reusing count variable, so we don't have to declare a new one! Now for a timer function
-        var count = setInterval(() => {
+        var intervalCounter = setInterval(() => {
             // ---------------------------------------------------------------- 
             var start = new Date();
-            var future = new Date(this.getAttribute("date") || 2147483647e3);// "2038-1-19 3:14:7");
-            var since = future < start && ([start, future] = [future, start]);
+            var future = new Date(this.getAttribute("date") || 2147483647e3);// Y2K38 date: "2038-1-19 3:14:7");
+            future < start && ([start, future] = [future, start]); // if count UP swap dates
             var diff = future - start;
             // var day = 864e5; // 864e5 * 365 = 31536e6
             var timediff = { year: ~~(diff / 31536e6) };
+
             var leapYears = 0;
-            var year;
-            for (year = start.getFullYear(); year < future.getFullYear(); year++)
-                ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) && (since ? leapYears-- : leapYears++);
+            for (var year = start.getFullYear(); year < future.getFullYear(); year++)
+                ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+                    && (future < start ? leapYears-- : leapYears++);
+
             //timediff.weeks = ~~((diff -= timediff.years * day * 7)/day);
             timediff.day = ~~((diff -= timediff.year * 31536e6) / 864e5) + leapYears;
             timediff.hour = ~~((diff -= (timediff.day - leapYears) * 864e5) / 36e5);
@@ -146,7 +148,7 @@ customElements.define("date-count", class extends HTMLElement {
 
             )).every(value => !value)) {
                 // counter is down to 0, stop interval timer
-                clearInterval(count);
+                clearInterval(intervalCounter);
                 this.dispatchEvent(new Event(this.id)); // dispatch event
                 //this.dispatchEvent(new CustomEvent("date-count", { bubbles: 1, composed: 1 })); // dispatch event
             }
