@@ -57,7 +57,7 @@ customElements.define("date-count", class extends HTMLElement {
                     "}" +
                     // eventname
                     "#event{" +
-                    attr_CSSprop("event", "color", "#e3") + // black
+                    attr_CSSprop("event", "color", "#0") + // black
                     attr_CSSprop("event", "padding", "0 2rem") +
                     attr_CSSprop("event", "font-size", "2.4rem") +
                     attr_CSSprop("event", "text-align", "center") +
