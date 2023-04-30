@@ -72,7 +72,7 @@
             font-size: 140%;
         }
     </style>
-    <script src="./element.js"></script>
+    <script src="./element.min.js"></script>
     <script src="https://file-size.github.io/element.js"></script>
     <script>
         customElements.define("spa-ces", class extends HTMLElement {
@@ -92,6 +92,19 @@
                 });
             }
         })
+        customElements.define("date-count-display", class extends HTMLElement {
+            connectedCallback() {
+                setTimeout(() => {
+                    this.innerHTML = "<html-code>" +
+                        this.closest("section")
+                            .querySelector("date-count")
+                            .outerHTML
+                            .replaceAll("<", "&lt;")
+                            .replaceAll(`" `, `"<br><spa-ces>12</spa-ces>`) +
+                        "</html-code>";
+                });
+            }
+        });
     </script>
     <template id="HEADER-AND-FOOTER">
         <h1>&lt;date-count> Web Component <svg viewBox="0 0 720 720">
@@ -127,40 +140,42 @@
     </header>
     <main>
         <h1>Use the Web Component in HTML code:</h1>
-        <section id="countdown"><script>document.write(`<date-count format="nl" date="${new Date(Date()-20)}">10 seconds</date-count>`)</script></section>
+        <section id="countdown">
+            <script>document.write(`<date-count format="nl" date="${new Date(Date() - 20)}">10 seconds</date-count>`)</script>
+        </section>
         <section id="default">
             <h2>Count down to the default future date</h2>
-            <html-code>&lt;date-count>&lt;/date-count></html-code>
+            <date-count-display></date-count-display>
             <date-count></date-count>
         </section>
         <section id="newyear">
             <h2>set custom date and hide years counter</h2>
-            <html-code>&lt;date-count date="2024-1-1" noyear>🎆 New Year! 🍾&lt;/date-count></html-code>
+            <date-count-display></date-count-display>
             <date-count noyear date="2024-1-1">🎆 New Year! 🍾</date-count>
+        </section>
+        <section id="newyeardaysNO">
+            <h2>set custom date, only display days counter and format font-size</h2>
+            <date-count-display></date-count-display>
+            <date-count noyear nohour nominute nosecond date="2024-1-1" counts-font-size="5rem">🎆 New Year!
+                🍾</date-count>
         </section>
         <section id="newyeardays">
             <h2>set custom date, only display days counter and format font-size</h2>
-            <html-code>&lt;date-count date="2024-1-1"<br>
-                <spa-ces>14</spa-ces>count="day"<br>
-                <spa-ces>14</spa-ces>counts-font-size="6rem">🎆
-                New Year! 🍾<br>&lt;/date-count></html-code>
-            <date-count noyear nohour nominute nosecond date="2024-1-1" counts-font-size="6rem">🎆 New Year!
-                🍾</date-count>
+            <date-count-display></date-count-display>
+            <date-count date="2024-1-1" count="day" counts-font-size="5rem">🎆 New Year! 🍾</date-count>
         </section>
         <section id="since">
             <h2>Count <b>up</b> from a past date</h2>
-            <html-code>&lt;date-count date="1969-1-21"<br>
-                <spa-ces>14</spa-ces>event="my age"<br>
-                <spa-ces>14</spa-ces>count="year,day,hour"><br>&lt;/date-count></html-code>
+            <date-count-display></date-count-display>
             <date-count date="1969-1-21" event="my age" count="year,day,hour"></date-count>
         </section>
-        <section id="language">
+        <section id="languageES">
             <h2>Set the labels to any language</h2>
-            <html-code>&lt;date-count format="es"><br>&nbsp;Y2K38 in Spanish<br>&lt;/date-count></html-code>
+            <date-count-display></date-count-display>
             <date-count format="es">Y2K38 in Spanish</date-count>
-            <html-code>&lt;date-count format="nl"<br>
-                <spa-ces>14</spa-ces>count="year,day"><br>&nbsp;Y2K38
-                in Dutch<br>&lt;/date-count></html-code>
+        </section>
+        <section id="languageNL">
+            <date-count-display></date-count-display>
             <date-count count="year,day" format="nl">Y2K38 in Dutch</date-count>
         </section>
         <section id="CSS">
@@ -196,15 +211,13 @@
 
         <section id="attributes">
             <h2>Set styles with attributes (overrule global CSS properties)</h2>
-            <html-code>&lt;date-count counts-background="blue"<br>
-                <spa-ces>14</spa-ces>counts-color="gold"><br>
-                &lt;/date-count></html-code>
+            <date-count-display></date-count-display>
             <date-count counts-background="blue" counts-color="gold"></date-count>
         </section>
 
         <section id="parts">
             <h2>Style shadowDOM with <code>::part(...)</code></h2>
-            <html-code>&lt;date-count>styled with :part&lt;/date-count></html-code>
+            <date-count-display></date-count-display>
             <img src="https://i.imgur.com/43FEtpm.png" />
             <style>
                 #parts date-count::part(event) {
@@ -239,7 +252,7 @@
 
         <section id="filesize">
             <h2><code class="title">&lt;date-count></code> minified GZIP Filesize is <i>small</i></h2>
-            <p>Did I get the GZipped size down to 1 KiloByte?</p>
+            <p>Did I get the GZipped size under 1 KiloByte?</p>
             <file-size gz src="https://date-count.github.io/element.min.js"></file-size>
         </section>
     </main>

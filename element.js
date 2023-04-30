@@ -23,19 +23,6 @@ customElements.define("date-count", class extends HTMLElement {
             // and filter away user defined "noyears" ... "noseconds" attributes
             || count.filter(label => !this.hasAttribute("no" + label));
 
-        // --------------------------------------------------------------------
-        // get proper locale_labels for all countlabels
-        var locale_labels = countlabels.map(label =>
-            new Intl.RelativeTimeFormat(
-                this.getAttribute("format") || "en", // todo: query this default from CSS property?
-                //{ numeric: "auto" }
-            ).formatToParts(
-                2, // 2 for plural, 1 for singular
-                label // label in "years,days,hours,minutes,seconds"
-            )[2] // get time label name in locale as Object
-                .value // get time name in locale as String
-        );
-
         // ********************************************************************
         // generic function to create a HTML element with all content and properties
         // this[id] optimized for use in this Custom Element
@@ -107,16 +94,26 @@ customElements.define("date-count", class extends HTMLElement {
             // --------------------------------------------------------------------
             element({
                 id: "counts",
-                append: countlabels.map(id => element({ // id = "years", "days", "hours", "minutes", "seconds"
-                    id: id + "part",
+                append: countlabels.map(label => element({ // = "years", "days", "hours", "minutes", "seconds"
+                    id: label + "part",
                     append: [
                         element({
-                            id
+                            id: label
                             //, innerHTML: "#" // saving some bytes, after a second the value will be set
                         }),
                         element({
-                            id: id + "label",
-                            innerHTML: locale_labels[countlabels.indexOf(id)]
+                            id: label + "label",
+                            innerHTML:         
+                                // --------------------------------------------------------------------
+                                // get proper locale_labels for all countlabels
+                                new Intl.RelativeTimeFormat(
+                                    this.getAttribute("format") || "en", // todo: query this default from CSS property?
+                                    //{ numeric: "auto" }
+                                ).formatToParts(
+                                    2, // 2 for plural, 1 for singular
+                                    label // label in "years,days,hours,minutes,seconds"
+                                )[2] // get time label name in locale as Object
+                                    .value // get time name in locale as String)
                         })]
                 }))
             }))// shadowDOM created
@@ -130,10 +127,7 @@ customElements.define("date-count", class extends HTMLElement {
             var future = new Date(this.getAttribute("date") || "2038-1-19 3:14:7");
             var since = future < start && ([start, future] = [future, start]);
             var diff = future - start;
-            //console.log(future,diff);
-            //this.setAttribute("date", future - diff);
-            // var day = 86400000;
-            // 86400000 * 365 = 31536000000
+            // var day = 86400000; // 86400000 * 365 = 31536000000
             var timediff = { year: ~~(diff / 31536000000) };
             var leapYears = 0;
             var year;
